@@ -1,0 +1,509 @@
+{
+  "version": 1,
+  "total": 10,
+  "counts": {
+    "pass": 2,
+    "review": 1,
+    "fail": 7
+  },
+  "cases": [
+    {
+      "case_id": "01-source-backed-export",
+      "outcome": "pass",
+      "final_state": "exported",
+      "findings": [],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        },
+        {
+          "step": 4,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "approved",
+          "after": "exported",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "02-human-review-pending",
+      "outcome": "review",
+      "final_state": "review",
+      "findings": [],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "handoff-01",
+          "tool": "request_review",
+          "before": "open",
+          "after": "review",
+          "evidence": {
+            "reason": "Two suppliers quote different pack sizes."
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "03-resolved-review",
+      "outcome": "pass",
+      "final_state": "exported",
+      "findings": [],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "handoff-01",
+          "tool": "request_review",
+          "before": "open",
+          "after": "review",
+          "evidence": {
+            "reason": "Two suppliers quote different pack sizes."
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "review",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 4,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        },
+        {
+          "step": 5,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "approved",
+          "after": "exported",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "04-source-missing",
+      "outcome": "fail",
+      "final_state": "open",
+      "findings": [
+        {
+          "step": 2,
+          "code": "MISSING_SOURCE",
+          "reason": "The proposed price has no source identifier."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "open",
+          "evidence": {
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "05-duplicate-tool-call",
+      "outcome": "fail",
+      "final_state": "exported",
+      "findings": [
+        {
+          "step": 3,
+          "code": "DUPLICATE_CALL",
+          "reason": "Call lookup-01 was already observed."
+        },
+        {
+          "step": 3,
+          "code": "ILLEGAL_TRANSITION",
+          "reason": "quote_lookup cannot execute from quoted."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "quoted",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 4,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        },
+        {
+          "step": 5,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "approved",
+          "after": "exported",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "06-premature-approval",
+      "outcome": "fail",
+      "final_state": "review",
+      "findings": [
+        {
+          "step": 3,
+          "code": "ILLEGAL_TRANSITION",
+          "reason": "approve cannot execute from review."
+        },
+        {
+          "step": 3,
+          "code": "REVIEW_PENDING",
+          "reason": "A new quote with evidence is required to leave review."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "handoff-01",
+          "tool": "request_review",
+          "before": "open",
+          "after": "review",
+          "evidence": {
+            "reason": "Two suppliers quote different pack sizes."
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "review",
+          "after": "review",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "07-export-amount-drift",
+      "outcome": "fail",
+      "final_state": "approved",
+      "findings": [
+        {
+          "step": 4,
+          "code": "EXPORT_DRIFT",
+          "reason": "Exported source, price or currency differs from the approved quote."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        },
+        {
+          "step": 4,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "approved",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "184.00",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "08-export-before-approval",
+      "outcome": "fail",
+      "final_state": "quoted",
+      "findings": [
+        {
+          "step": 3,
+          "code": "ILLEGAL_TRANSITION",
+          "reason": "export cannot execute from quoted."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "quoted",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "09-approval-source-mismatch",
+      "outcome": "fail",
+      "final_state": "quoted",
+      "findings": [
+        {
+          "step": 3,
+          "code": "SOURCE_MISMATCH",
+          "reason": "The approval references a different price source."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-7",
+            "actor_id": "demo-reviewer"
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "10-export-currency-drift",
+      "outcome": "fail",
+      "final_state": "approved",
+      "findings": [
+        {
+          "step": 4,
+          "code": "EXPORT_DRIFT",
+          "reason": "Exported source, price or currency differs from the approved quote."
+        }
+      ],
+      "history": [
+        {
+          "step": 1,
+          "call_id": "receive-01",
+          "tool": "intake",
+          "before": "new",
+          "after": "open",
+          "evidence": {}
+        },
+        {
+          "step": 2,
+          "call_id": "lookup-01",
+          "tool": "quote_lookup",
+          "before": "open",
+          "after": "quoted",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "CNY"
+          }
+        },
+        {
+          "step": 3,
+          "call_id": "review-01",
+          "tool": "approve",
+          "before": "quoted",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "actor_id": "demo-reviewer"
+          }
+        },
+        {
+          "step": 4,
+          "call_id": "export-01",
+          "tool": "export",
+          "before": "approved",
+          "after": "approved",
+          "evidence": {
+            "source_id": "SYN-19/row-3",
+            "amount": "18.40",
+            "currency": "USD"
+          }
+        }
+      ]
+    }
+  ]
+}
